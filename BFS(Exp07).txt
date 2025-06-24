@@ -1,0 +1,76 @@
+import java.util.*;
+
+public class BFS {
+    static void bfs(List<List<Integer>> graph, int start, int V) {
+        boolean[] visited = new boolean[V];  // Track visited vertices
+        Queue<Integer> queue = new LinkedList<>();
+
+        // Start BFS from the start node
+        visited[start] = true;
+        queue.add(start);
+
+        System.out.println("BFS Traversal starting from node " + start + ":");
+
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            System.out.print(current + " ");
+
+            for (int neighbor : graph.get(current)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.add(neighbor);
+                }
+            }
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Input number of vertices
+        System.out.print("Enter number of vertices: ");
+        int V = sc.nextInt();
+
+        // Input number of edges
+        System.out.print("Enter number of edges: ");
+        int E = sc.nextInt();
+
+        // Create adjacency list
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < V; i++)
+            graph.add(new ArrayList<>());
+
+        System.out.println("Enter edges (from to):");
+        for (int i = 0; i < E; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph.get(u).add(v);
+            graph.get(v).add(u);  // For undirected graph
+        }
+
+        // Input starting node
+        System.out.print("Enter starting node for BFS: ");
+        int start = sc.nextInt();
+
+        bfs(graph, start, V);
+    }
+}
+
+/*
+Input:
+Enter number of vertices: 5
+Enter number of edges: 6
+Enter edges (from to):
+0 1
+0 2
+1 2
+1 3
+2 4
+3 4
+Enter starting node for BFS: 0
+
+output:
+BFS Traversal starting from node 0:
+0 1 2 3 4 
+*/

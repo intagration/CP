@@ -1,0 +1,66 @@
+import java.util.*;
+
+public class BiColoring {
+    static boolean isBipartite(List<List<Integer>> graph, int nodes) {
+        int[] color = new int[nodes];
+        Arrays.fill(color, -1);  // -1 means unvisited
+
+        for (int start = 0; start < nodes; start++) {
+            if (color[start] == -1) {
+                Queue<Integer> queue = new LinkedList<>();
+                queue.add(start);
+                color[start] = 0;  // start with color 0
+
+                while (!queue.isEmpty()) {
+                    int u = queue.poll();
+                    for (int v : graph.get(u)) {
+                        if (color[v] == -1) {
+                            color[v] = 1 - color[u]; // alternate the color
+                            queue.add(v);
+                        } else if (color[v] == color[u]) {
+                            return false; // same color for adjacent nodes
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of nodes: ");
+        int n = sc.nextInt();
+
+        System.out.print("Enter number of edges: ");
+        int e = sc.nextInt();
+
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++)
+            graph.add(new ArrayList<>());
+
+        System.out.println("Enter " + e + " edges (from to):");
+        for (int i = 0; i < e; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph.get(u).add(v);
+            graph.get(v).add(u); // undirected graph
+        }
+
+        if (isBipartite(graph, n))
+            System.out.println("The graph is BICOLORABLE (bipartite).");
+        else
+            System.out.println("The graph is NOT BICOLORABLE.");
+    }
+}
+
+
+/*Enter number of nodes: 4
+Enter number of edges: 4
+Enter 4 edges (from to):
+0 1
+1 2
+2 3
+3 0
+The graph is BICOLORABLE (bipartite).*/
