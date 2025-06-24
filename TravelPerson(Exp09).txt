@@ -1,62 +1,33 @@
-import java.util.*;
+public class TSP {
+    static int V = 4; // Number of cities
+    static int[][] graph = {
+        {0, 10, 15, 20},
+        {10, 0, 35, 25},
+        {15, 35, 0, 30},
+        {20, 25, 30, 0}
+    };
+    
+    static boolean[] visited = new boolean[V];
+    static int minCost = Integer.MAX_VALUE;
 
-public class TravellingSalesman {
-    static int tsp(int[][] dist, boolean[] visited, int pos, int n, int count, int cost, int start) {
-        // If all cities are visited, return to starting city
-        if (count == n && dist[pos][start] > 0) {
-            return cost + dist[pos][start];
+    static void tsp(int pos, int count, int cost, int start) {
+        if (count == V && graph[pos][start] > 0) {
+            minCost = Math.min(minCost, cost + graph[pos][start]);
+            return;
         }
 
-        int ans = Integer.MAX_VALUE;
-
-        // Try visiting unvisited cities
-        for (int city = 0; city < n; city++) {
-            if (!visited[city] && dist[pos][city] > 0) {
+        for (int city = 0; city < V; city++) {
+            if (!visited[city] && graph[pos][city] > 0) {
                 visited[city] = true;
-                int temp = tsp(dist, visited, city, n, count + 1, cost + dist[pos][city], start);
-                ans = Math.min(ans, temp);
-                visited[city] = false;  // backtrack
+                tsp(city, count + 1, cost + graph[pos][city], start);
+                visited[city] = false;
             }
         }
-
-        return ans;
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
-        // Input number of cities
-        System.out.print("Enter number of cities: ");
-        int n = sc.nextInt();
-
-        // Input distance matrix
-        int[][] dist = new int[n][n];
-        System.out.println("Enter distance matrix:");
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                dist[i][j] = sc.nextInt();
-            }
-        }
-
-        boolean[] visited = new boolean[n];
-        visited[0] = true; // start from city 0
-
-        int minCost = tsp(dist, visited, 0, n, 1, 0, 0);
-
-        System.out.println("Minimum travel cost: " + minCost);
+        visited[0] = true; // Start from city 0 (A)
+        tsp(0, 1, 0, 0);
+        System.out.println("Minimum cost to complete TSP tour: " + minCost);
     }
 }
-
-
-/*
-Input:
-Enter number of cities: 4
-Enter distance matrix:
-0 10 15 20
-10 0 35 25
-15 35 0 30
-20 25 30 0
-
-output:
-Minimum travel cost: 80
-*/
