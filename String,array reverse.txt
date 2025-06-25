@@ -12,7 +12,6 @@ public class StringArrayOperations {
     public static void reverseArray(int[] arr) {
         int start = 0, end = arr.length - 1;
         while (start < end) {
-            // swap elements
             int temp = arr[start];
             arr[start] = arr[end];
             arr[end] = temp;
@@ -36,10 +35,11 @@ public class StringArrayOperations {
         System.out.println("Reversed String: " + reversedString);
 
         // b) Reverse Array
-        System.out.print("\nEnter size of array: ");
+        System.out.print("\nEnter the size of the array: ");
         int size = sc.nextInt();
         int[] array = new int[size];
-        System.out.println("Enter array elements:");
+
+        System.out.println("Enter " + size + " array elements:");
         for (int i = 0; i < size; i++) {
             array[i] = sc.nextInt();
         }
@@ -49,13 +49,14 @@ public class StringArrayOperations {
         for (int num : array) {
             System.out.print(num + " ");
         }
+        System.out.println();
 
-        sc.nextLine(); // clear buffer
+        sc.nextLine(); // Clear newline character after reading int
 
         // c) Concatenate two strings
-        System.out.print("\n\nEnter first string: ");
+        System.out.print("\nEnter the first string: ");
         String str1 = sc.nextLine();
-        System.out.print("Enter second string: ");
+        System.out.print("Enter the second string: ");
         String str2 = sc.nextLine();
         String concatenated = concatenateStrings(str1, str2);
         System.out.println("Concatenated String: " + concatenated);
